@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>מידה | Personal Area - My Content</title>
+    <meta name="description" content="אבטיפוס אזור אישי - התוכן שלי במידה.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="prototype-shared.css" rel="stylesheet">
+    <style>
+      .account-shell {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 22px;
+      }
+
+      .side-menu {
+        padding: 16px;
+      }
+
+      .side-menu a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 10px;
+        border-bottom: 1px solid #edf2f7;
+        color: #24324a;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .side-menu a.active {
+        color: var(--mida-blue);
+      }
+
+      .help-card {
+        margin-top: 18px;
+        padding: 20px;
+      }
+
+      .content-hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        align-items: center;
+        padding: 28px;
+        color: #fff;
+        border-radius: 4px;
+        background: radial-gradient(circle at 18% 20%, rgba(8, 120, 248, .25), transparent 32%), var(--mida-navy);
+      }
+
+      .hero-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .hero-mini {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, .22);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, .06);
+      }
+
+      .hero-mini .media-frame {
+        border-radius: 0;
+      }
+
+      .hero-mini-body {
+        padding: 10px;
+      }
+
+      .hero-mini h3,
+      .content-card h3,
+      .watch-card h3 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 900;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 22px;
+      }
+
+      .content-card,
+      .watch-card {
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .04);
+        overflow: hidden;
+      }
+
+      .content-card-body,
+      .watch-card-body {
+        padding: 12px;
+      }
+
+      .member-banner {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        gap: 20px;
+        align-items: center;
+        margin-top: 22px;
+        padding: 24px;
+        color: #fff;
+        border-radius: 4px;
+        background: linear-gradient(90deg, rgba(2, 10, 24, .95), rgba(2, 10, 24, .52)), url("https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-07-at-4.39.53-PM.jpeg") center / cover;
+      }
+
+      .conference-banner {
+        display: grid;
+        grid-template-columns: 1fr 220px;
+        gap: 18px;
+        align-items: center;
+        margin-top: 18px;
+        padding: 20px 24px;
+        border: 1px solid rgba(8, 120, 248, .28);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .04);
+      }
+
+      .discount-badge {
+        display: grid;
+        place-items: center;
+        min-height: 88px;
+        border-radius: 4px;
+        color: #fff;
+        background: var(--mida-blue);
+        font-size: 30px;
+        font-weight: 900;
+      }
+
+      .watch-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .progress-track {
+        height: 5px;
+        border-radius: 999px;
+        background: #e8eef6;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--mida-blue);
+      }
+
+      @media (max-width: 1080px) {
+        .account-shell,
+        .content-hero,
+        .member-banner,
+        .conference-banner {
+          grid-template-columns: 1fr;
+        }
+
+        .content-grid,
+        .watch-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 680px) {
+        .content-grid,
+        .watch-grid,
+        .hero-card-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="top-actions"><span>✉</span><span>🔔</span><strong>ישראל ישראלי</strong></div>
+        <input class="search-box" type="search" placeholder="חפש במידה..." aria-label="חיפוש">
+        <a class="brand" href="index.html"><img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה"></a>
+      </div>
+    </header>
+    <nav class="nav-strip">
+      <ul class="nav">
+        <li class="nav-item"><a class="nav-link active" href="category-vision.html">חוץ וביטחון</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html">פוליטיקה</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html">כלכלה</a></li>
+        <li class="nav-item"><a class="nav-link" href="single-article-vision.html">חברה</a></li>
+        <li class="nav-item"><a class="nav-link" href="admin-dashboard-vision.html">דשבורד מנהלים</a></li>
+      </ul>
+    </nav>
+    <main class="page-wrap">
+      <div class="account-shell">
+        <aside>
+          <nav class="panel side-menu">
+            <a class="active" href="personal-content-vision.html">הבית שלי <span>⌂</span></a>
+            <a href="#recommended">תוכן בשבילך <span>☆</span></a>
+            <a href="#watch-history">היסטוריית צפייה <span>◷</span></a>
+            <a href="#recommended">שמורים <span>♡</span></a>
+            <a href="#member-content">הורדות <span>⇩</span></a>
+            <a href="#member-content">תוכן בלעדי <span>🔒</span></a>
+            <a href="#watch-history">פודקאסטים <span>◉</span></a>
+            <a href="#conference">אירועים <span>□</span></a>
+            <a href="personal-account-vision.html">החשבון שלי <span>👤</span></a>
+          </nav>
+          <section class="panel help-card">
+            <h2 class="section-title">זקוק לעזרה?</h2>
+            <p class="section-note">צוות התמיכה שלנו כאן בשבילך.</p>
+            <a class="btn btn-outline-primary w-100 mt-3 fw-bold" href="personal-account-vision.html">צור קשר</a>
+          </section>
+        </aside>
+        <section>
+          <section class="content-hero">
+            <div>
+              <span class="kicker">התוכן שלך</span>
+              <h1 class="display-6 fw-black">שלום ישראלי,</h1>
+              <p>תוכן שנבחר במיוחד עבורך בהתאם למה שקראת, שמרת וצפית בו לאחרונה.</p>
+              <a class="btn btn-mida px-4" href="category-vision.html">גלה תוכן חדש</a>
+            </div>
+            <div class="hero-card-grid">
+              <article class="hero-mini">
+                <div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-02-at-7.25.26-PM.jpeg" alt="איראן"></div>
+                <div class="hero-mini-body"><h3>איראן 2025: בין משבר פנימי</h3><div class="byline text-white-50">06/06/2026</div></div>
+              </article>
+              <article class="hero-mini">
+                <div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/05/UA_fiber-optic_FPV_drone_02.webp.png" alt="רחפנים"></div>
+                <div class="hero-mini-body"><h3>המלחמה הרב-זירתית: לקחים</h3><div class="byline text-white-50">05/06/2026</div></div>
+              </article>
+              <article class="hero-mini">
+                <div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2015/06/%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%9E%D7%98%D7%95%D7%A1-f15-Copy.jpg" alt="מטוס"></div>
+                <div class="hero-mini-body"><h3>עליונות אווירית במזרח התיכון</h3><div class="byline text-white-50">04/06/2026</div></div>
+              </article>
+            </div>
+          </section>
+          <section class="conference-banner" id="conference" aria-label="הרשמה מוקדמת לכנס מידה">
+            <div>
+              <span class="topic-label">Early bird לחברי מידה</span>
+              <h2 class="section-title">הרשמה מוקדמת לכנס מידה השנתי</h2>
+              <p class="section-note">מנויים מקבלים 25% הנחה עד 20/06/2026. הכנס יעסוק בישראל והעולם החדש, ביטחון לאומי, כלכלה וחירות.</p>
+              <a class="btn btn-mida mt-3 px-4" href="personal-account-vision.html">שריין כרטיס מוזל</a>
+            </div>
+            <div class="discount-badge">25%</div>
+          </section>
+
+          <section class="mt-4" id="recommended">
+            <h2 class="section-title">מומלץ עבורך</h2>
+            <div class="content-grid">
+              <article class="content-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/54839482365_1a1ee9a8cd_k.jpg" alt=""></div><div class="content-card-body"><span class="topic-label">חוץ וביטחון</span><h3>בחירות בארה"ב והשלכותיהן על ישראל</h3><div class="byline">שגיא רובר | 8 דק'</div></div></article>
+              <article class="content-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/Turan_overlook_1.jpg" alt=""></div><div class="content-card-body"><span class="topic-label">יהודה ושומרון</span><h3>ירושלים: בין מציאות לארכיבנות</h3><div class="byline">קובי מיכאל | 12 דק'</div></div></article>
+              <article class="content-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/260508-M-M0308-1280.jpg" alt=""></div><div class="content-card-body"><span class="topic-label">כלכלה</span><h3>המהפכה השקטה: איך כלכלה מדינית משתנה?</h3><div class="byline">דיוויד וו | 7 דק'</div></div></article>
+              <article class="content-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-07-at-4.39.53-PM.jpeg" alt=""></div><div class="content-card-body"><span class="topic-label">חברה</span><h3>מי מהנדס לצעירים את התודעה?</h3><div class="byline">שניאור ובר | 9 דק'</div></div></article>
+            </div>
+          </section>
+          <section class="member-banner" id="member-content">
+            <div><h2 class="section-title text-white">תוכן בלעדי לחברי מידה</h2><p>גישה למדריכים, פאנלים, וראיונות מלאים עם בכירים ומומחים.</p></div>
+            <a class="btn btn-light fw-bold" href="single-article-vision.html">לצפייה בכל התכנים הבלעדיים</a>
+          </section>
+          <section class="mt-4" id="watch-history">
+            <h2 class="section-title">היסטוריית צפייה</h2>
+            <div class="watch-grid">
+              <article class="watch-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/05/UA_fiber-optic_FPV_drone_02.webp.png" alt=""></div><div class="watch-card-body"><h3>אתגר הרחפנים</h3><div class="byline">צפית ב-80%</div><div class="progress-track mt-2"><div class="progress-fill" style="width:80%"></div></div></div></article>
+              <article class="watch-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/Screenshot-2026-06-08-135937.png" alt=""></div><div class="watch-card-body"><h3>בפיקוד הבכיר</h3><div class="byline">צפית ב-45%</div><div class="progress-track mt-2"><div class="progress-fill" style="width:45%"></div></div></div></article>
+              <article class="watch-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-02-at-7.25.26-PM.jpeg" alt=""></div><div class="watch-card-body"><h3>סייבר במלחמה</h3><div class="byline">צפית ב-60%</div><div class="progress-track mt-2"><div class="progress-fill" style="width:60%"></div></div></div></article>
+              <article class="watch-card"><div class="media-frame"><img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-07-at-4.39.53-PM.jpeg" alt=""></div><div class="watch-card-body"><h3>ראיון כלכלי</h3><div class="byline">צפית ב-30%</div><div class="progress-track mt-2"><div class="progress-fill" style="width:30%"></div></div></div></article>
+            </div>
+          </section>
+        </section>
+      </div>
+      <p class="app-note">All content in Hebrew. Explanatory annotations in English.</p>
+    </main>
+    <footer class="site-footer"><button class="footer-toggle" type="button" aria-expanded="true"><span class="collapse-label">הסתר סרגל</span><span class="expand-label">פתח סרגל</span><span>⌄</span></button><div class="footer-inner"><div class="footer-item"><div><p class="footer-title">הצטרפו לקהילת מידה</p><p class="footer-copy">יחד נמשיך להשפיע</p><a class="btn btn-mida btn-sm mt-2 px-4" href="personal-account-vision.html">הצטרפו עכשיו</a></div></div><div class="footer-item"><span class="footer-icon">AI</span><div><p class="footer-title">שאל את מידה</p><p class="footer-copy">צ'אט AI המבוסס על יותר מ-10,000 כתבות מידה</p></div></div><div class="footer-item"><span class="footer-icon">✉</span><div><p class="footer-title">ניוזלטר יומי</p><p class="footer-copy">הכותרות החשובות אצלך</p></div></div><div class="footer-item"><img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה"><div><p class="footer-title">למה מידה?</p><p class="footer-copy">עיתונות עצמאית, מציאותית ומעמיקה.</p></div></div></div></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>const footerToggle=document.querySelector('.footer-toggle');footerToggle?.addEventListener('click',()=>{const collapsed=document.body.classList.toggle('footer-collapsed');footerToggle.setAttribute('aria-expanded',String(!collapsed));});</script>
+  </body>
+</html>

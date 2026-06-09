@@ -1,0 +1,2011 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>מידה | Homepage Vision Prototype</title>
+    <meta name="description" content="אתר מידה הוא מגזין יומי חדשותי ואינטלקטואלי, עם כתבות, תחקירים, ניתוחים ופודקאסטים. אבטיפוס חזון דף הבית למצגת גיוס תרומות.">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="מידה | כתבות, תחקירים וניתוח">
+    <meta property="og:description" content="אבטיפוס דף בית מודרני למידה: עומק עיתונאי, פודקאסטים, תוכן מנויים ונתיב תמיכה ברור.">
+    <meta property="og:image" content="https://mida.org.il/wp-content/uploads/2018/01/cover.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      :root {
+        --mida-navy: #020a18;
+        --mida-logo-bg: #2b2b2b;
+        --mida-ink: #0d1830;
+        --mida-blue: #0878f8;
+        --mida-blue-dark: #075cd2;
+        --mida-cyan: #28c7ff;
+        --mida-red: #f0252f;
+        --mida-border: #dfe7f2;
+        --mida-soft: #f5f8fc;
+        --mida-muted: #65738a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding-bottom: 118px;
+        background: #eef3f8;
+        color: var(--mida-ink);
+        font-family: Arial, Helvetica, sans-serif;
+        transition: padding-bottom .22s ease;
+      }
+
+      body.footer-collapsed {
+        padding-bottom: 44px;
+      }
+
+      .vision-shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: minmax(245px, 300px) minmax(960px, 1fr);
+      }
+
+      .annotation-rail {
+        direction: ltr;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 46px 32px;
+        background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+        border-right: 1px solid #d4dfec;
+        overflow: auto;
+      }
+
+      .annotation-title {
+        margin: 0 0 52px;
+        color: #0c1729;
+        font-size: 24px;
+        font-weight: 800;
+      }
+
+      .annotation-item {
+        position: relative;
+        display: grid;
+        grid-template-columns: 28px 1fr 64px;
+        gap: 12px;
+        align-items: start;
+        margin-bottom: 30px;
+      }
+
+      .annotation-item::after {
+        content: "";
+        height: 1px;
+        background: var(--mida-blue);
+        margin-top: 12px;
+      }
+
+      .annotation-number,
+      .callout-dot {
+        display: inline-grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        color: #fff;
+        background: var(--mida-blue);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .annotation-heading {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .annotation-copy {
+        margin: 0;
+        color: #1f2b3f;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .member-note {
+        margin-top: 28px;
+        padding: 22px 18px;
+        border: 1px solid var(--mida-blue);
+        border-radius: 4px;
+        text-align: right;
+        background: #fff;
+      }
+
+      .member-note .icon {
+        display: block;
+        color: var(--mida-blue);
+        font-size: 30px;
+        line-height: 1;
+        margin-bottom: 12px;
+      }
+
+      .prototype-stage {
+        position: relative;
+        min-width: 0;
+        background: #fff;
+      }
+
+      .callout-dot {
+        position: absolute;
+        z-index: 10;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+        box-shadow: 0 10px 28px rgba(8, 120, 248, .28);
+      }
+
+      .callout-1 { top: 202px; right: 34px; }
+      .callout-2 { top: 456px; right: 34px; }
+      .callout-3 { top: 660px; right: 34px; }
+      .callout-4 { top: 838px; right: 34px; }
+      .callout-5 { top: 1014px; right: 34px; }
+
+      .topbar {
+        background: radial-gradient(circle at 50% 0%, rgba(8, 120, 248, .08), transparent 32%), var(--mida-logo-bg);
+        color: #fff;
+        border-bottom: 1px solid rgba(255, 255, 255, .12);
+      }
+
+      .topbar-inner {
+        min-height: 80px;
+        display: grid;
+        grid-template-columns: 250px 1fr 330px;
+        align-items: center;
+        gap: 22px;
+        padding: 0 42px;
+      }
+
+      .brand {
+        display: block;
+        justify-self: center;
+        line-height: 1;
+      }
+
+      .brand-logo {
+        display: block;
+        width: 150px;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .brand-mark {
+        display: block;
+        color: #fff;
+        font-size: 52px;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .brand-tag {
+        display: block;
+        margin-top: 4px;
+        color: var(--mida-cyan);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .search-wrap {
+        justify-self: start;
+        width: min(100%, 245px);
+      }
+
+      .search-box {
+        direction: rtl;
+        width: 100%;
+        height: 38px;
+        border: 1px solid rgba(255, 255, 255, .24);
+        border-radius: 5px;
+        background: rgba(255, 255, 255, .035);
+        color: #dce7f7;
+        padding: 0 16px;
+        font-size: 14px;
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 18px;
+        color: #d5e1f1;
+        font-size: 14px;
+      }
+
+      .icon-link {
+        color: #d5e1f1;
+        text-decoration: none;
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      .btn-mida {
+        border: 0;
+        border-radius: 4px;
+        background: linear-gradient(180deg, #1085ff 0%, #006eea 100%);
+        color: #fff;
+        font-weight: 800;
+        box-shadow: 0 10px 26px rgba(8, 120, 248, .24);
+      }
+
+      .btn-mida:hover {
+        color: #fff;
+        background: linear-gradient(180deg, #2490ff 0%, #075cd2 100%);
+      }
+
+      .nav-strip {
+        height: 40px;
+        background: #fff;
+        border-bottom: 1px solid var(--mida-border);
+        box-shadow: 0 1px 10px rgba(13, 24, 48, .05);
+      }
+
+      .nav-strip .nav {
+        height: 40px;
+        justify-content: flex-start;
+        gap: 34px;
+      }
+
+      .nav-strip .nav-link {
+        padding: 10px 0 8px;
+        color: #101c32;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .nav-strip .nav-link.active {
+        color: var(--mida-blue);
+        border-bottom: 2px solid var(--mida-blue);
+      }
+
+      .hot-topics {
+        border-bottom: 1px solid var(--mida-border);
+        background: #fbfdff;
+      }
+
+      .hot-topics-inner {
+        width: min(100%, 1210px);
+        margin: 0 auto;
+        padding: 10px 26px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        overflow-x: auto;
+      }
+
+      .hot-label {
+        flex: 0 0 auto;
+        color: #15213a;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .topic-chip {
+        flex: 0 0 auto;
+        border: 1px solid #d7e1ee;
+        border-radius: 4px;
+        padding: 6px 14px;
+        color: #1c2b43;
+        background: #fff;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .topic-chip.active {
+        color: #fff;
+        border-color: var(--mida-navy);
+        background: var(--mida-navy);
+      }
+
+      .content-wrap {
+        width: min(100%, 1210px);
+        margin: 0 auto;
+        padding: 18px 26px 0;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(430px, 1.08fr) minmax(360px, .92fr);
+        gap: 46px;
+        align-items: center;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--mida-border);
+      }
+
+      .hero-media,
+      .article-media,
+      .video-main,
+      .mini-media,
+      .story-thumb {
+        position: relative;
+        overflow: hidden;
+        background: #c7d3df;
+      }
+
+      .hero-media {
+        aspect-ratio: 16 / 9;
+        border-radius: 4px;
+        box-shadow: 7px 8px 0 rgba(13, 24, 48, .05);
+      }
+
+      .hero-media > img,
+      .article-media > img,
+      .video-main > img,
+      .mini-media > img,
+      .story-thumb > img,
+      .podcaster-photo > img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-media::before,
+      .article-media::before,
+      .video-main::before,
+      .mini-media::before,
+      .story-thumb::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--image);
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero-media::after,
+      .article-media::after,
+      .video-main::after,
+      .story-thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, .28));
+      }
+
+      .hero-copy {
+        text-align: right;
+        padding-inline: 10px 34px;
+      }
+
+      .kicker {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--mida-blue);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      h1 {
+        margin: 0 auto 16px;
+        max-width: 620px;
+        color: #111b31;
+        font-size: clamp(32px, 3vw, 46px);
+        line-height: 1.16;
+        font-weight: 900;
+      }
+
+      .hero-summary {
+        max-width: 640px;
+        margin: 0 auto 14px;
+        color: #18263e;
+        font-size: 18px;
+        line-height: 1.7;
+      }
+
+      .meta-line {
+        display: flex;
+        justify-content: flex-start;
+        gap: 14px;
+        color: var(--mida-red);
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+
+      .section-title {
+        margin: 0 0 10px;
+        color: #172238;
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .article-card {
+        height: 100%;
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .05);
+      }
+
+      .article-media {
+        aspect-ratio: 16 / 9;
+      }
+
+      .article-body {
+        padding: 10px 12px 12px;
+        text-align: right;
+      }
+
+      .article-title {
+        min-height: 48px;
+        margin: 0 0 8px;
+        font-size: 15px;
+        line-height: 1.28;
+        font-weight: 900;
+      }
+
+      .byline {
+        color: var(--mida-muted);
+        font-size: 12px;
+      }
+
+      .topic-label {
+        display: inline-block;
+        margin-bottom: 7px;
+        color: var(--mida-blue);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .byline .date {
+        color: #0e1728;
+      }
+
+      .content-panels {
+        display: grid;
+        grid-template-columns: 1.08fr .9fr .95fr;
+        gap: 20px;
+        margin-top: 14px;
+      }
+
+      .panel {
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .04);
+        overflow: hidden;
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-bottom: 1px solid #edf2f7;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .panel-header a {
+        color: var(--mida-blue);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .podcast-row,
+      .event-row {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 13px 14px;
+        border-bottom: 1px solid #edf2f7;
+      }
+
+      .podcast-row:last-child,
+      .event-row:last-child {
+        border-bottom: 0;
+      }
+
+      .play-btn {
+        display: inline-grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--mida-blue);
+        border-radius: 999px;
+        color: var(--mida-blue);
+        font-size: 12px;
+      }
+
+      .row-title {
+        margin: 0 0 2px;
+        font-size: 13px;
+        line-height: 1.35;
+        font-weight: 800;
+      }
+
+      .row-meta {
+        margin: 0;
+        color: var(--mida-muted);
+        font-size: 11px;
+      }
+
+      .event-row {
+        grid-template-columns: 50px 1fr;
+      }
+
+      .date-box {
+        padding: 5px 3px;
+        border-radius: 4px;
+        background: #f3f6fa;
+        color: #111b31;
+        text-align: right;
+        font-weight: 900;
+      }
+
+      .date-box span {
+        display: block;
+        color: var(--mida-muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .member-panel {
+        padding: 25px 26px;
+        color: #fff;
+        text-align: right;
+        background:
+          radial-gradient(circle at 20% 15%, rgba(40, 199, 255, .26), transparent 30%),
+          linear-gradient(145deg, #0878f8 0%, #003ed0 100%);
+      }
+
+      .member-panel h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .member-panel ul {
+        display: inline-grid;
+        gap: 8px;
+        margin: 0 0 20px;
+        padding: 0;
+        list-style: none;
+        text-align: right;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .member-panel li::before {
+        content: "✓";
+        margin-left: 8px;
+      }
+
+      .member-panel .btn {
+        width: min(100%, 245px);
+        background: #fff;
+        color: #044cc8;
+        font-weight: 900;
+      }
+
+      .member-panel a {
+        display: inline-block;
+        margin-top: 10px;
+        color: #fff;
+        font-size: 12px;
+      }
+
+      .category-preview {
+        margin-top: 22px;
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .04);
+        overflow: hidden;
+      }
+
+      .category-hero {
+        min-height: 260px;
+        display: grid;
+        align-items: center;
+        padding: 34px 42px;
+        color: #fff;
+        background:
+          linear-gradient(90deg, rgba(2, 10, 24, .2), rgba(2, 10, 24, .92)),
+          url("https://mida.org.il/wp-content/uploads/2026/05/UA_fiber-optic_FPV_drone_02.webp.png") center / cover;
+      }
+
+      .category-hero h2 {
+        margin: 0 0 12px;
+        font-size: clamp(30px, 4vw, 52px);
+        font-weight: 900;
+      }
+
+      .category-hero p {
+        max-width: 620px;
+        margin: 0 0 16px;
+        color: #eef5ff;
+        font-size: 17px;
+        line-height: 1.65;
+      }
+
+      .category-tabs {
+        display: flex;
+        gap: 10px;
+        padding: 14px;
+        border-bottom: 1px solid var(--mida-border);
+        overflow-x: auto;
+      }
+
+      .category-tabs a {
+        flex: 0 0 auto;
+        min-width: 112px;
+        padding: 9px 12px;
+        border: 1px solid #dce5f0;
+        border-radius: 4px;
+        color: #172238;
+        background: #fff;
+        text-align: right;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .category-tabs a.active {
+        color: #fff;
+        background: var(--mida-navy);
+        border-color: var(--mida-navy);
+      }
+
+      .category-body {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 18px;
+        padding: 18px;
+      }
+
+      .category-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .recommended-list {
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fbfdff;
+      }
+
+      .recommended-list h3 {
+        margin: 0;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--mida-border);
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .recommended-item {
+        display: grid;
+        grid-template-columns: 74px 1fr;
+        gap: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #edf2f7;
+      }
+
+      .recommended-item:last-child {
+        border-bottom: 0;
+      }
+
+      .recommended-thumb {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border-radius: 4px;
+        background: #d7e0ea;
+      }
+
+      .recommended-thumb img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .recommended-item p {
+        margin: 0 0 4px;
+        font-size: 12px;
+        line-height: 1.35;
+        font-weight: 900;
+      }
+
+      .feature-band {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 1fr 330px;
+        gap: 20px;
+      }
+
+      .deep-feature {
+        min-height: 290px;
+        display: flex;
+        align-items: center;
+        padding: 38px;
+        color: #fff;
+        border-radius: 4px;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(2, 10, 24, .1), rgba(2, 10, 24, .94)),
+          url("https://mida.org.il/wp-content/uploads/2026/06/Turan_overlook_1.jpg") center / cover;
+      }
+
+      .deep-feature h2 {
+        margin: 0 0 12px;
+        max-width: 560px;
+        font-size: clamp(28px, 3vw, 40px);
+        line-height: 1.18;
+        font-weight: 900;
+      }
+
+      .deep-feature p {
+        max-width: 560px;
+        margin: 0 0 18px;
+        color: #eef5ff;
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      .newsletter-band {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 18px;
+        align-items: center;
+        padding: 20px 26px;
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #f8fbff;
+      }
+
+      .newsletter-band h2 {
+        margin: 0 0 4px;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .newsletter-band p {
+        margin: 0;
+        color: var(--mida-muted);
+        font-size: 13px;
+      }
+
+      .newsletter-input {
+        min-width: 280px;
+        height: 40px;
+        border: 1px solid #d7e1ee;
+        border-radius: 4px;
+        padding: 0 12px;
+      }
+
+      .topical-depth {
+        margin-top: 22px;
+      }
+
+      .topical-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .topic-lane {
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .04);
+        overflow: hidden;
+      }
+
+      .topic-lane-hero {
+        position: relative;
+        min-height: 180px;
+        display: flex;
+        align-items: end;
+        padding: 18px;
+        color: #fff;
+        background: linear-gradient(180deg, rgba(2, 10, 24, .08), rgba(2, 10, 24, .88)), var(--topic-image) center / cover;
+      }
+
+      .topic-lane-hero h3 {
+        margin: 0 0 6px;
+        font-size: 22px;
+        line-height: 1.18;
+        font-weight: 900;
+      }
+
+      .topic-lane-hero p {
+        margin: 0;
+        color: #dfeaf8;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .topic-article-list {
+        display: grid;
+      }
+
+      .topic-article {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 13px 14px;
+        border-bottom: 1px solid #edf2f7;
+      }
+
+      .topic-article:last-child {
+        border-bottom: 0;
+      }
+
+      .topic-article h4 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 900;
+      }
+
+      .topic-badge {
+        align-self: start;
+        min-width: 54px;
+        padding: 5px 7px;
+        border-radius: 4px;
+        color: var(--mida-blue);
+        background: #eef6ff;
+        text-align: right;
+        font-size: 11px;
+        font-weight: 900;
+      }
+
+      .video-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .video-panel {
+        grid-column: span 2;
+      }
+
+      .podcasters-section {
+        margin-top: 20px;
+      }
+
+      .podcasters-section.featured-podcasts {
+        margin-top: 22px;
+        padding: 22px;
+        border: 1px solid rgba(8, 120, 248, .18);
+        border-radius: 4px;
+        background:
+          linear-gradient(90deg, rgba(2, 10, 24, .03), rgba(8, 120, 248, .08)),
+          #fff;
+        box-shadow: 0 12px 32px rgba(13, 24, 48, .08);
+      }
+
+      .section-kicker-row {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .section-kicker-row .section-title {
+        margin-bottom: 2px;
+        font-size: 20px;
+      }
+
+      .section-note {
+        margin: 0;
+        color: var(--mida-muted);
+        font-size: 13px;
+      }
+
+      .podcaster-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .featured-podcasts .podcaster-grid {
+        grid-template-columns: repeat(4, minmax(250px, 1fr));
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .podcaster-card {
+        overflow: hidden;
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .05);
+        scroll-snap-align: start;
+      }
+
+      .featured-podcasts .podcaster-card {
+        border-color: rgba(8, 120, 248, .22);
+      }
+
+      .podcaster-photo {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: #d7e0ea;
+      }
+
+      .podcaster-body {
+        padding: 14px;
+      }
+
+      .podcaster-show {
+        margin: 0 0 4px;
+        font-size: 16px;
+        line-height: 1.3;
+        font-weight: 900;
+      }
+
+      .podcaster-host {
+        margin: 0 0 10px;
+        color: var(--mida-blue);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .episode-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: #1b2638;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .episode-list li + li {
+        margin-top: 6px;
+      }
+
+      .video-main {
+        aspect-ratio: 16 / 9;
+        border-radius: 4px;
+      }
+
+      .video-title {
+        margin: 10px 0 12px;
+        text-align: right;
+        font-size: 18px;
+        line-height: 1.25;
+        font-weight: 900;
+      }
+
+      .video-play {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        z-index: 2;
+      }
+
+      .video-play span {
+        display: inline-grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border: 2px solid rgba(255, 255, 255, .9);
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(2, 10, 24, .4);
+        font-size: 18px;
+      }
+
+      .mini-media {
+        aspect-ratio: 16 / 9;
+        border-radius: 3px;
+      }
+
+      .trending-strip {
+        margin-top: 20px;
+        border: 1px solid var(--mida-border);
+        border-radius: 4px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(13, 24, 48, .04);
+      }
+
+      .trending-header {
+        padding: 10px 14px 0;
+      }
+
+      .story-list {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 18px;
+        padding: 12px 14px 14px;
+      }
+
+      .story-item {
+        display: grid;
+        grid-template-columns: 74px 1fr 28px;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .story-thumb {
+        aspect-ratio: 16 / 9;
+        border-radius: 4px;
+      }
+
+      .story-title {
+        margin: 0 0 6px;
+        font-size: 12px;
+        line-height: 1.3;
+        font-weight: 800;
+      }
+
+      .story-number {
+        color: #172238;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .site-footer {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        margin-top: 0;
+        color: #fff;
+        background: var(--mida-logo-bg);
+        border-top: 1px solid rgba(255, 255, 255, .12);
+        box-shadow: 0 -18px 42px rgba(2, 10, 24, .22);
+        transform: translateY(0);
+        transition: transform .22s ease;
+      }
+
+      body.footer-collapsed .site-footer {
+        transform: translateY(calc(100% - 44px));
+      }
+
+      .footer-inner {
+        display: grid;
+        grid-template-columns: 1.15fr 1.15fr 1fr 1.2fr;
+        gap: 24px;
+        align-items: center;
+        width: min(100%, 1210px);
+        min-height: 82px;
+        margin: 0 auto;
+        padding: 16px 26px;
+        opacity: 1;
+        transition: opacity .14s ease;
+      }
+
+      body.footer-collapsed .footer-inner {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .footer-toggle {
+        position: absolute;
+        top: 7px;
+        left: 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 30px;
+        border: 1px solid rgba(255, 255, 255, .28);
+        border-radius: 4px;
+        padding: 5px 12px;
+        color: #fff;
+        background: rgba(255, 255, 255, .08);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .footer-toggle:hover {
+        background: rgba(255, 255, 255, .14);
+      }
+
+      .footer-toggle .collapse-label,
+      body.footer-collapsed .footer-toggle .expand-label {
+        display: inline;
+      }
+
+      .footer-toggle .expand-label,
+      body.footer-collapsed .footer-toggle .collapse-label {
+        display: none;
+      }
+
+      .footer-item {
+        min-height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        border-left: 1px solid rgba(255, 255, 255, .16);
+        text-align: right;
+      }
+
+      .footer-item:last-child {
+        border-left: 0;
+      }
+
+      .footer-icon {
+        display: inline-grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border: 1px solid rgba(255, 255, 255, .18);
+        border-radius: 999px;
+        font-size: 19px;
+        color: #fff;
+      }
+
+      .footer-title {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .footer-copy {
+        margin: 2px 0 0;
+        color: #d3deeb;
+        font-size: 12px;
+      }
+
+      @media (max-width: 1180px) {
+        .vision-shell {
+          display: block;
+        }
+
+        .annotation-rail {
+          position: static;
+          height: auto;
+          padding: 26px;
+          border-right: 0;
+          border-bottom: 1px solid #d4dfec;
+        }
+
+        .annotation-title {
+          margin-bottom: 22px;
+        }
+
+        .annotation-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 18px;
+        }
+
+        .annotation-item {
+          margin-bottom: 0;
+          grid-template-columns: 28px 1fr;
+        }
+
+        .annotation-item::after {
+          display: none;
+        }
+
+        .member-note {
+          margin-top: 20px;
+        }
+
+        .callout-dot {
+          display: none;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .topbar-inner,
+        .hero-grid,
+        .content-panels,
+        .category-body,
+        .feature-band,
+        .newsletter-band,
+        .topical-grid,
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar-inner {
+          gap: 14px;
+          padding: 18px 24px;
+        }
+
+        .brand {
+          order: -1;
+        }
+
+        .search-wrap,
+        .top-actions {
+          justify-self: stretch;
+          justify-content: flex-start;
+        }
+
+        .hero-copy {
+          padding-inline: 0;
+        }
+
+        .story-list {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .podcaster-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .category-card-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .newsletter-input {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .video-panel {
+          grid-column: auto;
+        }
+
+        .footer-item {
+          border-left: 0;
+          border-bottom: 1px solid rgba(255, 255, 255, .16);
+        }
+      }
+
+      @media (max-width: 680px) {
+        .content-wrap {
+          padding: 16px 14px 0;
+        }
+
+        .annotation-grid,
+        .story-list,
+        .video-grid,
+        .podcaster-grid,
+        .category-card-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .category-hero,
+        .deep-feature {
+          padding: 26px 20px;
+          min-height: 240px;
+        }
+
+        .nav-strip {
+          height: auto;
+          overflow-x: auto;
+        }
+
+        .nav-strip .nav {
+          width: max-content;
+          padding: 0 14px;
+        }
+
+        h1 {
+          font-size: 30px;
+        }
+
+        .hero-summary {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="vision-shell">
+      <aside class="annotation-rail" aria-label="Homepage vision annotations">
+        <h2 class="annotation-title">Homepage Vision</h2>
+        <div class="annotation-grid">
+          <section class="annotation-item">
+            <span class="annotation-number">1</span>
+            <div>
+              <h3 class="annotation-heading">Personalized content</h3>
+              <p class="annotation-copy">A personal feed tailored to your interests. The more you read and watch, the better it gets.</p>
+            </div>
+          </section>
+          <section class="annotation-item">
+            <span class="annotation-number">2</span>
+            <div>
+              <h3 class="annotation-heading">Easy and focused navigation</h3>
+              <p class="annotation-copy">Categories, search, and leading topics all in one place.</p>
+            </div>
+          </section>
+          <section class="annotation-item">
+            <span class="annotation-number">3</span>
+            <div>
+              <h3 class="annotation-heading">In-depth content</h3>
+              <p class="annotation-copy">Articles, podcasts, videos, and events together in one editorial system.</p>
+            </div>
+          </section>
+          <section class="annotation-item">
+            <span class="annotation-number">4</span>
+            <div>
+              <h3 class="annotation-heading">For members only</h3>
+              <p class="annotation-copy">Exclusive reports, discounts on events, member podcasts, and early access.</p>
+            </div>
+          </section>
+          <section class="annotation-item">
+            <span class="annotation-number">5</span>
+            <div>
+              <h3 class="annotation-heading">Stay up to date</h3>
+              <p class="annotation-copy">A monthly email with important topics, exclusive content, and community updates.</p>
+            </div>
+          </section>
+        </div>
+        <section class="member-note">
+          <span class="icon">♙</span>
+          <h3 class="annotation-heading">Already a member? It is even better</h3>
+          <p class="annotation-copy">A donor-visible path from public reading to paid membership and deeper engagement.</p>
+          <a class="btn btn-mida btn-sm mt-3 px-4" href="personal-account-vision.html">Join now</a>
+        </section>
+      </aside>
+
+      <section class="prototype-stage">
+        <span class="callout-dot callout-1">1</span>
+        <span class="callout-dot callout-2">2</span>
+        <span class="callout-dot callout-3">3</span>
+        <span class="callout-dot callout-4">4</span>
+        <span class="callout-dot callout-5">5</span>
+
+        <header class="topbar">
+          <div class="topbar-inner">
+            <div class="search-wrap">
+              <input class="search-box" type="search" value="" placeholder="חפש במידה..." aria-label="חיפוש">
+            </div>
+            <a class="brand text-decoration-none" href="index.html">
+              <img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה - כנות, מחקר, השפעה">
+            </a>
+            <div class="top-actions">
+              <a class="icon-link" href="personal-content-vision.html" aria-label="אימייל">✉</a>
+              <a class="icon-link" href="personal-content-vision.html" aria-label="פייסבוק">f</a>
+              <a class="icon-link" href="personal-content-vision.html" aria-label="טוויטר">●</a>
+              <a class="icon-link" href="single-article-vision.html" aria-label="וידאו">▶</a>
+              <a class="text-white text-decoration-none" href="personal-content-vision.html">התחבר</a>
+              <a class="btn btn-mida btn-sm px-4" href="personal-account-vision.html">הצטרפו כמנויים</a>
+            </div>
+          </div>
+        </header>
+
+        <nav class="nav-strip" aria-label="ניווט ראשי">
+          <ul class="nav">
+            <li class="nav-item"><a class="nav-link active" href="category-vision.html">חוץ וביטחון</a></li>
+            <li class="nav-item"><a class="nav-link" href="single-article-vision.html">ממשל ופוליטיקה</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#economy">כלכלה</a></li>
+            <li class="nav-item"><a class="nav-link" href="personal-content-vision.html">חברה</a></li>
+            <li class="nav-item"><a class="nav-link" href="personal-content-vision.html#watch-history">פודקאסטים</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#archive">ארכיון</a></li>
+            <li class="nav-item"><a class="nav-link" href="single-article-vision.html">כתבות משנה</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-dashboard-vision.html">עוד</a></li>
+          </ul>
+        </nav>
+
+        <div class="hot-topics" aria-label="נושאים חמים">
+          <div class="hot-topics-inner">
+            <span class="hot-label">על סדר היום</span>
+            <a class="topic-chip active" href="category-vision.html#recent-updates">מלחמה בדרום</a>
+            <a class="topic-chip" href="category-vision.html#foreign-policy">אנטישמיות</a>
+            <a class="topic-chip" href="index.html#economy">יוקר המחיה</a>
+            <a class="topic-chip" href="single-article-vision.html">משפט</a>
+            <a class="topic-chip" href="category-vision.html#iran">איראן</a>
+            <a class="topic-chip" href="category-vision.html#idf">ביטחון לאומי</a>
+          </div>
+        </div>
+
+        <div class="content-wrap">
+          <section class="hero-grid">
+            <div class="hero-copy">
+              <span class="kicker">ממשל ופוליטיקה</span>
+              <h1>בראיון עם בנט, אסנהיים שוב מקבל ציון נכשל</h1>
+              <p class="hero-summary">במקום לשאול את השאלות הקשות ולעמת אותו עם המציאות, הוא העדיף לעשות נעים בגב. מגיעה לנו טלוויזיה אחרת</p>
+              <div class="meta-line">
+                <span>חנן עמיאור</span>
+                <span>|</span>
+                <span>08/06/2026</span>
+              </div>
+              <a class="btn btn-mida px-5" href="single-article-vision.html">קרא עוד</a>
+            </div>
+            <div class="hero-media" role="img" aria-label="בראיון עם בנט, אסנהיים שוב מקבל ציון נכשל">
+              <img src="https://mida.org.il/wp-content/uploads/2026/06/Screenshot-2026-06-08-135937.png" alt="בראיון עם בנט, אסנהיים שוב מקבל ציון נכשל">
+            </div>
+          </section>
+
+          <section class="mt-2" aria-label="כתבות נבחרות">
+            <h2 class="section-title">כתבות נבחרות</h2>
+            <div class="row g-3">
+              <div class="col-12 col-sm-6 col-lg">
+                <article class="article-card">
+                  <div class="article-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/260508-M-M0308-1280.jpg" alt="מה הורג את הזהב?">
+                  </div>
+                  <div class="article-body">
+                    <span class="topic-label">גיאופוליטיקה וכלכלה</span>
+                    <h3 class="article-title">מה הורג את הזהב?</h3>
+                    <div class="byline"><span class="date">08/06/2026</span> <span class="text-danger">|</span> דיוויד וו</div>
+                  </div>
+                </article>
+              </div>
+              <div class="col-12 col-sm-6 col-lg">
+                <article class="article-card">
+                  <div class="article-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-07-at-4.39.53-PM.jpeg" alt="כור ההיתוך יורד לשטח: מי מהנדס לצעירים את התודעה?">
+                  </div>
+                  <div class="article-body">
+                    <span class="topic-label">חינוך ותודעה</span>
+                    <h3 class="article-title">כור ההיתוך יורד לשטח: מי מהנדס לצעירים את התודעה?</h3>
+                    <div class="byline"><span class="date">07/06/2026</span> <span class="text-danger">|</span> שניאור ובר ועודד מנשה</div>
+                  </div>
+                </article>
+              </div>
+              <div class="col-12 col-sm-6 col-lg">
+                <article class="article-card">
+                  <div class="article-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/54839482365_1a1ee9a8cd_k.jpg" alt="הבגידה של הולנד בישראל">
+                  </div>
+                  <div class="article-body">
+                    <span class="topic-label">יחסי חוץ ואירופה</span>
+                    <h3 class="article-title">הבגידה של הולנד בישראל</h3>
+                    <div class="byline"><span class="date">07/06/2026</span> <span class="text-danger">|</span> וים קורטנאובן, מכון גייטסטון</div>
+                  </div>
+                </article>
+              </div>
+              <div class="col-12 col-sm-6 col-lg">
+                <article class="article-card">
+                  <div class="article-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/Assembly_of_the_IDF_Military_Intelligence_Directorate_marking_the_Ascent_to_the_Negev_July_2021_III-Copy.jpeg" alt="הסיבות לכשלי המודיעין">
+                  </div>
+                  <div class="article-body">
+                    <span class="topic-label">ביטחון ומודיעין</span>
+                    <h3 class="article-title">הסיבות לכשלי המודיעין</h3>
+                    <div class="byline"><span class="date">05/06/2026</span> <span class="text-danger">|</span> אליהו דקל־דליצקי</div>
+                  </div>
+                </article>
+              </div>
+              <div class="col-12 col-sm-6 col-lg">
+                <article class="article-card">
+                  <div class="article-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/Turan_overlook_1.jpg" alt="האמת על הקמת היישוב החדש שיבולת">
+                  </div>
+                  <div class="article-body">
+                    <span class="topic-label">התיישבות וחברה</span>
+                    <h3 class="article-title">האמת על הקמת היישוב החדש שיבולת</h3>
+                    <div class="byline"><span class="date">04/06/2026</span> <span class="text-danger">|</span> עקיבא ביגמן</div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="podcasters-section featured-podcasts" aria-label="פודקאסטרים">
+            <div class="section-kicker-row">
+              <div>
+                <h2 class="section-title">הפודקאסטרים של מידה</h2>
+                <p class="section-note">סדרות עומק קבועות שמחברות בין גיאופוליטיקה, משפט, תודעה, ביטחון וכלכלה.</p>
+              </div>
+              <a href="personal-content-vision.html#watch-history" class="text-primary text-decoration-none fw-bold small">לכל הפודקאסטים ›</a>
+            </div>
+            <div class="podcaster-grid">
+              <article class="podcaster-card">
+                <div class="podcaster-photo">
+                  <img src="https://mida.org.il/wp-content/uploads/2026/06/260508-M-M0308-1280.jpg" alt="ללא גבולות עם דיוויד וו">
+                </div>
+                <div class="podcaster-body">
+                  <h3 class="podcaster-show">'ללא גבולות'</h3>
+                  <p class="podcaster-host">דיוויד וו</p>
+                  <ul class="episode-list">
+                    <li>מה הורג את הזהב?</li>
+                    <li>הבחירה של טראמפ: השפלה או הסלמה</li>
+                    <li>קפיצת המדרגה של הבינה המלאכותית: קלוד מיתוס</li>
+                  </ul>
+                </div>
+              </article>
+              <article class="podcaster-card">
+                <div class="podcaster-photo">
+                  <img src="https://mida.org.il/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-30-at-9.29.32-PM.jpeg" alt="זווית ישרה עם אורנה ישר">
+                </div>
+                <div class="podcaster-body">
+                  <h3 class="podcaster-show">'זווית ישרה'</h3>
+                  <p class="podcaster-host">אורנה ישר</p>
+                  <ul class="episode-list">
+                    <li>"נדהמתי מהתגובה של הפרופסור"</li>
+                    <li>הייתה דרך אחרת לפטר את היועמ"שית</li>
+                    <li>"במלחמה הזו יש הפתעה אחת שיכולה לשנות את הכל"</li>
+                  </ul>
+                </div>
+              </article>
+              <article class="podcaster-card">
+                <div class="podcaster-photo">
+                  <img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-07-at-4.39.53-PM.jpeg" alt="כור ההיתוך עם שניאור ובר">
+                </div>
+                <div class="podcaster-body">
+                  <h3 class="podcaster-show">'כור ההיתוך'</h3>
+                  <p class="podcaster-host">שניאור ובר</p>
+                  <ul class="episode-list">
+                    <li>כור ההיתוך יורד לשטח: מי מהנדס לצעירים את התודעה?</li>
+                    <li>"לא הרגנו מספיק באיראן"</li>
+                    <li>הפילנתרופ שהפך לטוראי בחטיבה החרדית</li>
+                  </ul>
+                </div>
+              </article>
+              <article class="podcaster-card">
+                <div class="podcaster-photo">
+                  <img src="https://mida.org.il/wp-content/uploads/2025/09/cover-photos-8-18.png" alt="אידיוטים שימושיים עם עקיבא ביגמן">
+                </div>
+                <div class="podcaster-body">
+                  <h3 class="podcaster-show">'אידיוטים שימושיים'</h3>
+                  <p class="podcaster-host">עקיבא ביגמן</p>
+                  <ul class="episode-list">
+                    <li>בתוך מכונת התעמולה של החמאס</li>
+                    <li>זו שנאה תהומית לישראל וליהודים, אין הסבר אחר</li>
+                    <li>המיסקלקולציה של רונן בר</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="category-preview" aria-label="חזון עמוד נושא">
+            <div class="category-hero">
+              <div>
+                <span class="kicker">Topic Page Vision</span>
+                <h2>חוץ וביטחון</h2>
+                <p>ניתוחים, מגמות ודעות על אתגרי הביטחון הלאומי, המדיניות האזורית והמאבקים על העתיד.</p>
+                <a class="btn btn-mida px-4" href="category-vision.html">לכל הכתבות במדור</a>
+              </div>
+            </div>
+            <nav class="category-tabs" aria-label="תתי נושאים">
+              <a class="active" href="category-vision.html#recent-updates">כללי</a>
+              <a href="category-vision.html#iran">איראן</a>
+              <a href="category-vision.html#us-security">ארה"ב וביטחון</a>
+              <a href="category-vision.html#foreign-policy">ארה"ב ומדיניות חוץ</a>
+              <a href="category-vision.html#terror">טרור ורדיקליזם</a>
+              <a href="category-vision.html#middle-east">המזרח התיכון</a>
+              <a href="category-vision.html#idf">צה"ל</a>
+            </nav>
+            <div class="category-body">
+              <div>
+                <h2 class="section-title">עדכונים אחרונים</h2>
+                <div class="category-card-grid">
+                  <article class="article-card">
+                    <div class="article-media">
+                      <img src="https://mida.org.il/wp-content/uploads/2026/06/54839482365_1a1ee9a8cd_k.jpg" alt="הבגידה של הולנד בישראל">
+                    </div>
+                    <div class="article-body">
+                      <span class="topic-label">יחסי חוץ</span>
+                      <h3 class="article-title">הבגידה של הולנד בישראל</h3>
+                      <div class="byline">07/06/2026</div>
+                    </div>
+                  </article>
+                  <article class="article-card">
+                    <div class="article-media">
+                      <img src="https://mida.org.il/wp-content/uploads/2026/06/Assembly_of_the_IDF_Military_Intelligence_Directorate_marking_the_Ascent_to_the_Negev_July_2021_III-Copy.jpeg" alt="הסיבות לכשלי המודיעין">
+                    </div>
+                    <div class="article-body">
+                      <span class="topic-label">מודיעין</span>
+                      <h3 class="article-title">הסיבות לכשלי המודיעין</h3>
+                      <div class="byline">05/06/2026</div>
+                    </div>
+                  </article>
+                  <article class="article-card">
+                    <div class="article-media">
+                      <img src="https://mida.org.il/wp-content/uploads/2026/05/UA_fiber-optic_FPV_drone_02.webp.png" alt="אתגר הרחפנים">
+                    </div>
+                    <div class="article-body">
+                      <span class="topic-label">תחקיר המלחמה</span>
+                      <h3 class="article-title">אתגר הרחפנים: מדוע צה"ל נתפס לא מוכן</h3>
+                      <div class="byline">04/05/2026</div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+              <aside class="recommended-list" aria-label="מומלצים">
+                <h3>מומלצים</h3>
+                <article class="recommended-item">
+                  <div class="recommended-thumb">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-02-at-7.25.26-PM.jpeg" alt="לא הרגנו מספיק באיראן">
+                  </div>
+                  <div>
+                    <p>"לא הרגנו מספיק באיראן"</p>
+                    <div class="byline">שניאור ובר</div>
+                  </div>
+                </article>
+                <article class="recommended-item">
+                  <div class="recommended-thumb">
+                    <img src="https://mida.org.il/wp-content/uploads/2015/06/%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%9E%D7%98%D7%95%D7%A1-f15-Copy.jpg" alt="אש מנגד">
+                  </div>
+                  <div>
+                    <p>אש מנגד - הקונספציה שכשלה</p>
+                    <div class="byline">אסטרטגיה</div>
+                  </div>
+                </article>
+                <article class="recommended-item">
+                  <div class="recommended-thumb">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/Turan_overlook_1.jpg" alt="שיבולת">
+                  </div>
+                  <div>
+                    <p>האמת על הקמת היישוב החדש שיבולת</p>
+                    <div class="byline">עקיבא ביגמן</div>
+                  </div>
+                </article>
+              </aside>
+            </div>
+          </section>
+
+          <section class="topical-depth" id="economy" aria-label="עומק נושאי">
+            <div class="section-kicker-row">
+              <div>
+                <h2 class="section-title">עומק נושאי</h2>
+                <p class="section-note">אשכולות תוכן שמציגים לתורמים את רוחב היריעה של מידה: ממשל, כלכלה, משפט וביטחון.</p>
+              </div>
+              <a href="category-vision.html#category-depth" class="text-primary text-decoration-none fw-bold small">לכל המדורים ›</a>
+            </div>
+            <div class="topical-grid">
+              <section class="topic-lane">
+                <div class="topic-lane-hero" style="--topic-image: url('https://mida.org.il/wp-content/uploads/2024/09/Demonstrating_against_judicial_reform_010323_01.jpg');">
+                  <div>
+                    <span class="kicker">ממשל ופוליטיקה</span>
+                    <h3>המאבק על מוסדות המדינה</h3>
+                    <p>כתבות מקור, פרשנות ומעקב אחר מוקדי הכוח הציבוריים.</p>
+                  </div>
+                </div>
+                <div class="topic-article-list">
+                  <article class="topic-article">
+                    <div>
+                      <h4>בראיון עם בנט, אסנהיים שוב מקבל ציון נכשל</h4>
+                      <div class="byline">חנן עמיאור | 08/06/2026</div>
+                    </div>
+                    <span class="topic-badge">ראיון</span>
+                  </article>
+                  <article class="topic-article">
+                    <div>
+                      <h4>בג"ץ נגד יריב לוין: היום שבו התחיל המשבר החוקתי</h4>
+                      <div class="byline">אורנה ישר | 02/06/2026</div>
+                    </div>
+                    <span class="topic-badge">משפט</span>
+                  </article>
+                  <article class="topic-article">
+                    <div>
+                      <h4>דו"ח מבקר המדינה: כך מאבד צה"ל ריבונות בשטחי האש בנגב</h4>
+                      <div class="byline">רזיאלה גפן | 31/05/2026</div>
+                    </div>
+                    <span class="topic-badge">ביקורת</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="topic-lane">
+                <div class="topic-lane-hero" style="--topic-image: url('https://mida.org.il/wp-content/uploads/2023/07/1asliv1.jpg');">
+                  <div>
+                    <span class="kicker">כלכלה</span>
+                    <h3>שווקים, מדינה וחירות כלכלית</h3>
+                    <p>מבט רחב על אינפלציה, אנרגיה, רפורמות ומודלים כלכליים.</p>
+                  </div>
+                </div>
+                <div class="topic-article-list">
+                  <article class="topic-article">
+                    <div>
+                      <h4>מהפכת החרות של חאבייר מיליי</h4>
+                      <div class="byline">ניקולס מרקס ומרסלו דוקלוס | 29/05/2026</div>
+                    </div>
+                    <span class="topic-badge">רפורמה</span>
+                  </article>
+                  <article class="topic-article">
+                    <div>
+                      <h4>ההתאבדות השקטה של יפן וגרמניה</h4>
+                      <div class="byline">דרו גודפרידי, מכון גייטסטון | 25/05/2026</div>
+                    </div>
+                    <span class="topic-badge">עולם</span>
+                  </article>
+                  <article class="topic-article">
+                    <div>
+                      <h4>״יש להימנע מהקמת יישובים חדשים״ - המסמך הפנימי שחושף את הכל</h4>
+                      <div class="byline">עקיבא ביגמן | 14/05/2026</div>
+                    </div>
+                    <span class="topic-badge">מדיניות</span>
+                  </article>
+                </div>
+              </section>
+
+              <section class="topic-lane">
+                <div class="topic-lane-hero" style="--topic-image: url('https://mida.org.il/wp-content/uploads/2026/05/WhatsApp-Image-2026-05-30-at-9.29.32-PM.jpeg');">
+                  <div>
+                    <span class="kicker">משפט וענייני חוק</span>
+                    <h3>משילות, בג"ץ והמאבק המשפטי</h3>
+                    <p>הקשר בין מערכת המשפט, הרשות המבצעת והוויכוח הציבורי.</p>
+                  </div>
+                </div>
+                <div class="topic-article-list">
+                  <article class="topic-article">
+                    <div>
+                      <h4>בג"ץ נגד יריב לוין: היום שבו התחיל המשבר החוקתי</h4>
+                      <div class="byline">אורנה ישר | 02/06/2026</div>
+                    </div>
+                    <span class="topic-badge">חוקה</span>
+                  </article>
+                  <article class="topic-article">
+                    <div>
+                      <h4>הייתה דרך אחרת לפטר את היועמ"שית</h4>
+                      <div class="byline">'זווית ישרה' עם אורנה ישר</div>
+                    </div>
+                    <span class="topic-badge">יועמ"ש</span>
+                  </article>
+                  <article class="topic-article">
+                    <div>
+                      <h4>המהפכה המשפטית של ברק</h4>
+                      <div class="byline">סדרת עומק בארכיון מידה</div>
+                    </div>
+                    <span class="topic-badge">ארכיון</span>
+                  </article>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="content-panels" aria-label="תוכן עומק ומנויים">
+            <div class="panel">
+              <div class="panel-header">
+                <span>פודקאסטים אחרונים</span>
+                <a href="personal-content-vision.html#watch-history">לכל הפודקאסטים ›</a>
+              </div>
+              <div class="podcast-row">
+                <span class="play-btn">▶</span>
+                <div>
+                  <p class="row-title">מה הורג את הזהב?</p>
+                  <p class="row-meta">'ללא גבולות' עם דיוויד וו</p>
+                </div>
+              </div>
+              <div class="podcast-row">
+                <span class="play-btn">▶</span>
+                <div>
+                  <p class="row-title">כור ההיתוך יורד לשטח: מי מהנדס לצעירים את התודעה?</p>
+                  <p class="row-meta">'כור ההיתוך' עם שניאור ובר</p>
+                </div>
+              </div>
+              <div class="podcast-row">
+                <span class="play-btn">▶</span>
+                <div>
+                  <p class="row-title">"נדהמתי מהתגובה של הפרופסור"</p>
+                  <p class="row-meta">'זווית ישרה' עם אורנה ישר</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <span>עומק לפי נושאים</span>
+                <a href="category-vision.html#category-depth">לכל המדורים ›</a>
+              </div>
+              <div class="event-row">
+                <div class="date-box">01<span>תחקיר</span></div>
+                <div>
+                  <p class="row-title">אתגר הרחפנים: מדוע צה"ל נתפס לא מוכן</p>
+                  <p class="row-meta">תחקיר המלחמה</p>
+                </div>
+              </div>
+              <div class="event-row">
+                <div class="date-box">02<span>אסטרטגיה</span></div>
+                <div>
+                  <p class="row-title">אש מנגד - הקונספציה שכשלה</p>
+                  <p class="row-meta">חוץ וביטחון</p>
+                </div>
+              </div>
+              <div class="event-row">
+                <div class="date-box">03<span>פוליטיקה</span></div>
+                <div>
+                  <p class="row-title">בג"ץ נגד יריב לוין: היום שבו התחיל המשבר החוקתי</p>
+                  <p class="row-meta">ממשל ופוליטיקה</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="member-panel">
+              <h2>תוכן בלעדי למנויים</h2>
+              <ul>
+                <li>תחקירי עומק ללא הסחות</li>
+                <li>פודקאסטים וסדרות לקהילה</li>
+                <li>גישה מוקדמת לאירועים</li>
+                <li>תמיכה ישירה בעיתונות עצמאית</li>
+              </ul>
+              <a class="btn btn-light" href="personal-account-vision.html">הצטרפו עכשיו</a>
+              <br>
+              <a href="personal-content-vision.html">כבר מנוי? התחבר</a>
+            </div>
+          </section>
+
+          <section class="content-panels" aria-label="וידאו ותוכן מומלץ">
+            <div class="panel video-panel">
+              <div class="panel-header">
+                <span>תחקיר המלחמה ואסטרטגיה</span>
+                <a href="single-article-vision.html">לכל הוידאו ›</a>
+              </div>
+              <div class="p-3">
+                <div class="video-main">
+                  <img src="https://mida.org.il/wp-content/uploads/2026/05/UA_fiber-optic_FPV_drone_02.webp.png" alt="אתגר הרחפנים: מדוע צה&quot;ל נתפס לא מוכן">
+                  <div class="video-play"><span>▶</span></div>
+                </div>
+                <h2 class="video-title">אתגר הרחפנים: מדוע צה"ל נתפס לא מוכן</h2>
+                <div class="video-grid">
+                  <div class="mini-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2015/06/%D7%AA%D7%9E%D7%95%D7%A0%D7%94-%D7%9E%D7%98%D7%95%D7%A1-f15-Copy.jpg" alt="אש מנגד - הקונספציה שכשלה">
+                  </div>
+                  <div class="mini-media">
+                    <img src="https://mida.org.il/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-02-at-7.25.26-PM.jpeg" alt="לא הרגנו מספיק באיראן">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <span>למה מידה?</span>
+              </div>
+              <div class="p-4">
+                <p class="mb-3 fw-bold">אתר מידה הוא מגזין יומי חדשותי ואינטלקטואלי, שמעמיד לרשות הציבור מידע ועמדות שאינם שכיחים בשיח הרווח בישראל.</p>
+                <p class="mb-0 text-secondary">המודל החדש מחבר בין כתבות, תחקירים, ניתוחים, פודקאסטים ותוכן מנויים כדי להפוך קהל קוראים לקהילה תומכת.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="feature-band" aria-label="עומק הדעה">
+            <article class="deep-feature">
+              <div>
+                <span class="kicker">עומק הדעה</span>
+                <h2>ירושלים: בין מציאות לארכיבנות</h2>
+                <p>כיצד ישראל יכולה לעצב מדיניות ארוכת טווח לירושלים, על רקע שינויים אזוריים ותחרות תודעתית חדשה.</p>
+                <a class="btn btn-mida px-4" href="single-article-vision.html">קראו את המאמר המלא</a>
+              </div>
+            </article>
+            <aside class="recommended-list" aria-label="מאמרי עומק ודעה">
+              <h3>מאמרי עומק ודעה</h3>
+              <article class="recommended-item">
+                <div class="recommended-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/10/F140308TN07-1.jpg" alt="רוח קפלן">
+                </div>
+                <div>
+                  <p>רוח קפלן: החלום על "נורמליות" פוסט-יהודית</p>
+                  <div class="byline">ממשל ופוליטיקה</div>
+                </div>
+              </article>
+              <article class="recommended-item">
+                <div class="recommended-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/10/Web_F2001FFN006-1.jpg" alt="מדעי הרוח">
+                </div>
+                <div>
+                  <p>שקט, חוקרים: על קריסת מדעי-הרוח בישראל</p>
+                  <div class="byline">תרבות ואקדמיה</div>
+                </div>
+              </article>
+              <article class="recommended-item">
+                <div class="recommended-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/12/F150724TNFF23-1.jpg" alt="איציק שמולי">
+                </div>
+                <div>
+                  <p>שיטת השקשוקה של איציק שמולי</p>
+                  <div class="byline">כלכלה וציבור</div>
+                </div>
+              </article>
+            </aside>
+          </section>
+
+          <section class="trending-strip" id="archive" aria-label="הכי נקראות">
+            <div class="trending-header">
+              <a href="category-vision.html" class="text-primary text-decoration-none fw-bold small">לכל הכתבות ›</a>
+            </div>
+            <div class="story-list">
+              <article class="story-item">
+                <div class="story-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/10/F140308TN07-1.jpg" alt="רוח קפלן">
+                </div>
+                <div>
+                  <p class="story-title">רוח קפלן: החלום על "נורמליות" פוסט-יהודית</p>
+                  <div class="byline">ממשל ופוליטיקה</div>
+                </div>
+                <div class="story-number">01</div>
+              </article>
+              <article class="story-item">
+                <div class="story-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/09/psa1108-2.jpg" alt="נתן בראש">
+                </div>
+                <div>
+                  <p class="story-title">נתן בראש</p>
+                  <div class="byline">כתבות מהארכיון</div>
+                </div>
+                <div class="story-number">02</div>
+              </article>
+              <article class="story-item">
+                <div class="story-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/10/1280px-Jabotinsky_wife_and_son-1.jpeg" alt="ז'בוטינסקי ללא ז'בוטינסקי">
+                </div>
+                <div>
+                  <p class="story-title">ז'בוטינסקי ללא ז'בוטינסקי</p>
+                  <div class="byline">היסטוריה ורעיונות</div>
+                </div>
+                <div class="story-number">03</div>
+              </article>
+              <article class="story-item">
+                <div class="story-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/10/Web_F2001FFN006-1.jpg" alt="שקט, חוקרים">
+                </div>
+                <div>
+                  <p class="story-title">שקט, חוקרים: על קריסת מדעי-הרוח בישראל</p>
+                  <div class="byline">תרבות ואקדמיה</div>
+                </div>
+                <div class="story-number">04</div>
+              </article>
+              <article class="story-item">
+                <div class="story-thumb">
+                  <img src="https://mida.org.il/wp-content/uploads/2012/12/F150724TNFF23-1.jpg" alt="שיטת השקשוקה של איציק שמולי">
+                </div>
+                <div>
+                  <p class="story-title">שיטת השקשוקה של איציק שמולי</p>
+                  <div class="byline">כלכלה וציבור</div>
+                </div>
+                <div class="story-number">05</div>
+              </article>
+            </div>
+          </section>
+
+          <section class="newsletter-band" aria-label="ניוזלטר">
+            <div>
+              <h2>הישארו מעודכנים</h2>
+              <p>קבלו את הניתוחים והתכנים החשובים ישירות לתיבת הדואר שלכם.</p>
+            </div>
+            <input class="newsletter-input" type="email" placeholder="כתובת אימייל" aria-label="כתובת אימייל">
+            <a class="btn btn-mida px-4" href="personal-account-vision.html#account-settings">הרשמה לעדכונים</a>
+          </section>
+        </div>
+
+        <footer class="site-footer">
+          <button class="footer-toggle" type="button" aria-expanded="true" aria-controls="mida-footer-content">
+            <span class="collapse-label">הסתר סרגל</span>
+            <span class="expand-label">פתח סרגל</span>
+            <span aria-hidden="true">⌄</span>
+          </button>
+          <div class="footer-inner" id="mida-footer-content">
+            <div class="footer-item">
+              <div>
+                <p class="footer-title">הצטרפו לקהילת מידה</p>
+                <p class="footer-copy">יחד נמשיך להשפיע</p>
+                <a class="btn btn-mida btn-sm mt-2 px-4" href="personal-account-vision.html">הצטרפו עכשיו</a>
+              </div>
+            </div>
+            <div class="footer-item">
+              <span class="footer-icon">AI</span>
+              <div>
+                <p class="footer-title">שאל את מידה</p>
+                <p class="footer-copy">צ'אט AI המבוסס על יותר מ-10,000 כתבות מידה</p>
+              </div>
+            </div>
+            <div class="footer-item">
+              <span class="footer-icon">✉</span>
+              <div>
+                <p class="footer-title">ניוזלטר יומי</p>
+                <p class="footer-copy">הכותרות החשובות אצלך</p>
+              </div>
+            </div>
+            <div class="footer-item">
+              <img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה - כנות, מחקר, השפעה">
+              <div>
+                <p class="footer-title">למה מידה?</p>
+                <p class="footer-copy">עיתונות עצמאית, מציאותית ומעמיקה.</p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const footerToggle = document.querySelector('.footer-toggle');
+      footerToggle?.addEventListener('click', () => {
+        const collapsed = document.body.classList.toggle('footer-collapsed');
+        footerToggle.setAttribute('aria-expanded', String(!collapsed));
+      });
+    </script>
+  </body>
+</html>

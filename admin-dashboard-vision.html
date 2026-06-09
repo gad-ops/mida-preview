@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>מידה | Admin Dashboard Vision</title>
+    <meta name="description" content="אבטיפוס דשבורד ניהול למידה.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="prototype-shared.css" rel="stylesheet">
+    <style>
+      body { padding-bottom: 0; }
+      .admin-shell { min-height:100vh; display:grid; grid-template-columns: 250px 1fr; background:#f4f7fb; }
+      .admin-sidebar { color:#fff; background:linear-gradient(180deg,#061528,#020a18); padding:22px 18px; }
+      .admin-profile { display:flex; align-items:center; gap:12px; margin-bottom:30px; }
+      .admin-profile img { width:44px; height:44px; border-radius:999px; object-fit:cover; }
+      .admin-nav { display:grid; gap:6px; }
+      .admin-nav a { display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-radius:4px; color:#d9e6f7; text-decoration:none; font-weight:800; }
+      .admin-nav a.active { background:rgba(8,120,248,.22); color:#fff; }
+      .admin-main { min-width:0; }
+      .admin-top { min-height:76px; display:grid; grid-template-columns: 1fr 420px auto; gap:24px; align-items:center; padding:0 26px; color:#fff; background:var(--mida-navy); }
+      .admin-top .brand-logo { width:132px; }
+      .admin-content { padding:26px; }
+      .dashboard-title { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:22px; }
+      .dashboard-title h1 { margin:0; font-size:34px; font-weight:900; }
+      .filters { display:flex; gap:14px; }
+      .filter-box { min-width:190px; padding:12px 14px; border:1px solid var(--mida-border); border-radius:4px; background:#fff; font-weight:800; }
+      .kpi-grid { display:grid; grid-template-columns: repeat(5,1fr); gap:18px; }
+      .kpi-card { padding:20px; border:1px solid var(--mida-border); border-radius:4px; background:#fff; box-shadow:0 8px 22px rgba(13,24,48,.04); }
+      .kpi-card h2 { margin:0 0 10px; color:#24324a; font-size:14px; font-weight:900; }
+      .kpi-value { font-size:32px; font-weight:900; }
+      .trend { font-size:12px; font-weight:900; }
+      .up { color:var(--mida-green); }
+      .down { color:var(--mida-red); }
+      .spark { width:100%; height:46px; margin-top:12px; }
+      .spark polyline { fill:none; stroke:var(--mida-blue); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+      .spark path { fill:rgba(8,120,248,.12); }
+      .chart-grid { display:grid; grid-template-columns: 1fr 1.2fr 1fr; gap:18px; margin-top:18px; }
+      .chart-panel { padding:22px; border:1px solid var(--mida-border); border-radius:4px; background:#fff; box-shadow:0 8px 22px rgba(13,24,48,.04); }
+      .donut { width:220px; height:220px; margin:18px auto; border-radius:999px; background:conic-gradient(var(--mida-blue) 0 57%, var(--mida-green) 57% 79%, var(--mida-purple) 79% 94%, #f5a742 94% 100%); display:grid; place-items:center; }
+      .donut::before { content:"₪389,450\\A סה\"כ"; white-space:pre; width:126px; height:126px; display:grid; place-items:center; border-radius:999px; background:#fff; color:#111b31; font-weight:900; text-align:center; }
+      .real-chart { width:100%; height:auto; margin-top:16px; overflow:visible; }
+      .axis { stroke:#cfd9e6; stroke-width:1; }
+      .grid-line { stroke:#eef3f8; stroke-width:1; }
+      .chart-label { fill:#65738a; font-size:11px; font-weight:700; }
+      .line-series { fill:none; stroke:var(--mida-blue); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+      .line-series.secondary { stroke:var(--mida-green); }
+      .area-series { fill:rgba(8,120,248,.12); }
+      .data-point { fill:#fff; stroke:var(--mida-blue); stroke-width:3; }
+      .data-point.secondary { stroke:var(--mida-green); }
+      .bar-svg rect.revenue { fill:var(--mida-green); }
+      .bar-svg rect.cancel { fill:var(--mida-red); }
+      .subscriber-timeline { margin-top:18px; position:relative; overflow:hidden; }
+      .subscriber-timeline svg { display:block; width:100%; }
+      .event-dot { position:absolute; width:13px; height:13px; border:2px solid #fff; border-radius:999px; background:var(--mida-red); box-shadow:0 0 0 5px rgba(227,75,75,.16); transform:translate(50%,-50%); }
+      .event-dot span { position:absolute; right:16px; top:-11px; min-width:130px; padding:4px 7px; border-radius:4px; color:#fff; background:#9d1f28; font-size:11px; font-weight:900; white-space:nowrap; }
+      .event-form { display:grid; grid-template-columns:1.2fr .8fr .8fr auto; gap:10px; margin-top:16px; }
+      .event-form input, .event-form select { min-width:0; height:38px; border:1px solid #d7e1ee; border-radius:4px; padding:0 10px; font-size:13px; }
+      .analytics-grid { display:grid; grid-template-columns: 1.1fr 1fr 1fr; gap:18px; margin-top:18px; }
+      table { width:100%; border-collapse:collapse; font-size:13px; }
+      th, td { padding:12px 10px; border-bottom:1px solid #edf2f7; }
+      th { color:#24324a; font-weight:900; }
+      .event-strip { margin-top:18px; display:grid; grid-template-columns: repeat(3,1fr); gap:16px; }
+      .event-card { display:grid; grid-template-columns:64px 1fr 120px; gap:14px; align-items:center; padding:18px; border:1px solid var(--mida-border); border-radius:4px; background:#fff; }
+      .date-pill { padding:9px; border-radius:4px; background:#f0f5fb; font-weight:900; }
+      @media(max-width:1200px){ .admin-shell{grid-template-columns:1fr;} .admin-sidebar{position:static;} .kpi-grid,.chart-grid,.analytics-grid,.event-strip{grid-template-columns:1fr 1fr;} }
+      @media(max-width:760px){ .admin-top,.kpi-grid,.chart-grid,.analytics-grid,.event-strip,.event-form{grid-template-columns:1fr;} .filters{flex-direction:column;} }
+    </style>
+  </head>
+  <body>
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-profile"><img src="https://mida.org.il/wp-content/uploads/userphoto/295.thumbnail.jpg" alt="ישראל ישראלי"><div><strong>ישראל ישראלי</strong><div class="byline text-white-50">מנהל ראשי</div></div></div>
+        <nav class="admin-nav">
+          <a class="active" href="admin-dashboard-vision.html">סקירת הנהלה <span>▦</span></a>
+          <a href="index.html">תוכן ופרסום <span>✉</span></a>
+          <a href="personal-content-vision.html#watch-history">פודקאסטים <span>◉</span></a>
+          <a href="personal-account-vision.html">מנויים וחברים <span>👤</span></a>
+          <a href="personal-account-vision.html#payment-options">תרומות <span>▣</span></a>
+          <a href="#subscriber-events">אנליטיקה מתקדמת <span>↗</span></a>
+          <a href="single-article-vision.html#comment-form">קהילה ותגובות <span>☷</span></a>
+          <a href="personal-account-vision.html#account-settings">הגדרות מערכת <span>⚙</span></a>
+        </nav>
+      </aside>
+      <main class="admin-main">
+        <header class="admin-top"><div class="top-actions"><span>🔔</span><span>✉</span><span>?</span></div><input class="search-box" type="search" placeholder="חיפוש בכל האתר..."><a class="brand" href="index.html"><img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה"></a></header>
+        <section class="admin-content">
+          <div class="dashboard-title"><div><h1>סקירת ביצועים</h1><p class="section-note">סנפשוט KPI - 30 הימים האחרונים</p></div><div class="filters"><div class="filter-box">8 ביוני 2026 - 8 במאי 2026</div><div class="filter-box">ייצוא דוח</div></div></div>
+          <section class="kpi-grid">
+            <article class="kpi-card"><h2>הכנסות החודש</h2><div class="kpi-value">₪389,450</div><div class="trend up">▲ 27.8% בהשוואה לתקופה</div><svg class="spark" viewBox="0 0 160 46" aria-hidden="true"><path d="M4 42 L4 35 L34 31 L64 26 L94 18 L126 12 L156 6 L156 42 Z"/><polyline points="4,35 34,31 64,26 94,18 126,12 156,6"/></svg></article>
+            <article class="kpi-card"><h2>סה"כ מנויים פעילים</h2><div class="kpi-value">12,842</div><div class="trend up">▲ 11.6%</div><svg class="spark" viewBox="0 0 160 46" aria-hidden="true"><path d="M4 42 L4 31 L34 29 L64 24 L94 21 L126 15 L156 11 L156 42 Z"/><polyline points="4,31 34,29 64,24 94,21 126,15 156,11"/></svg></article>
+            <article class="kpi-card"><h2>מנויים שבוטלו</h2><div class="kpi-value">312</div><div class="trend down">▲ 8.3%</div><svg class="spark" viewBox="0 0 160 46" aria-hidden="true"><path d="M4 42 L4 28 L34 31 L64 24 L94 30 L126 18 L156 21 L156 42 Z"/><polyline points="4,28 34,31 64,24 94,30 126,18 156,21"/></svg></article>
+            <article class="kpi-card"><h2>מנויים חדשים</h2><div class="kpi-value">1,248</div><div class="trend up">▲ 22.7%</div><svg class="spark" viewBox="0 0 160 46" aria-hidden="true"><path d="M4 42 L4 36 L34 33 L64 27 L94 25 L126 13 L156 8 L156 42 Z"/><polyline points="4,36 34,33 64,27 94,25 126,13 156,8"/></svg></article>
+            <article class="kpi-card"><h2>כניסות לאזור האישי</h2><div class="kpi-value">24,682</div><div class="trend up">▲ 18.4%</div><svg class="spark" viewBox="0 0 160 46" aria-hidden="true"><path d="M4 42 L4 34 L34 27 L64 30 L94 20 L126 19 L156 10 L156 42 Z"/><polyline points="4,34 34,27 64,30 94,20 126,19 156,10"/></svg></article>
+          </section>
+          <section class="chart-grid">
+            <div class="chart-panel"><h2 class="section-title">פילוח הכנסות לפי מקור</h2><div class="donut"></div><div class="byline">מנויים 57% | תרומות 22% | פודקאסטים 15% | Events 6%</div></div>
+            <div class="chart-panel"><div class="panel-header px-0 pt-0"><span>הכנסות בחודשים אחרונים</span><button class="btn btn-sm btn-outline-secondary">12 חודשים</button></div><svg class="real-chart" viewBox="0 0 520 260" role="img" aria-label="הכנסות חודשיות: יוני 389 אלף, מאי 322 אלף, אפריל 298 אלף">
+              <line class="grid-line" x1="54" y1="38" x2="494" y2="38"/><line class="grid-line" x1="54" y1="88" x2="494" y2="88"/><line class="grid-line" x1="54" y1="138" x2="494" y2="138"/><line class="grid-line" x1="54" y1="188" x2="494" y2="188"/>
+              <line class="axis" x1="54" y1="214" x2="494" y2="214"/><line class="axis" x1="54" y1="24" x2="54" y2="214"/>
+              <text class="chart-label" x="10" y="42">₪400k</text><text class="chart-label" x="10" y="92">₪350k</text><text class="chart-label" x="10" y="142">₪300k</text><text class="chart-label" x="10" y="192">₪250k</text>
+              <path class="area-series" d="M64 176 L124 168 L184 151 L244 144 L304 132 L364 96 L424 78 L484 42 L484 214 L64 214 Z"/>
+              <polyline class="line-series" points="64,176 124,168 184,151 244,144 304,132 364,96 424,78 484,42"/>
+              <circle class="data-point" cx="64" cy="176" r="5"/><circle class="data-point" cx="124" cy="168" r="5"/><circle class="data-point" cx="184" cy="151" r="5"/><circle class="data-point" cx="244" cy="144" r="5"/><circle class="data-point" cx="304" cy="132" r="5"/><circle class="data-point" cx="364" cy="96" r="5"/><circle class="data-point" cx="424" cy="78" r="5"/><circle class="data-point" cx="484" cy="42" r="5"/>
+              <text class="chart-label" x="58" y="238">נוב</text><text class="chart-label" x="118" y="238">דצמ</text><text class="chart-label" x="178" y="238">ינו</text><text class="chart-label" x="238" y="238">פבר</text><text class="chart-label" x="298" y="238">מרץ</text><text class="chart-label" x="358" y="238">אפר</text><text class="chart-label" x="418" y="238">מאי</text><text class="chart-label" x="478" y="238">יונ</text>
+            </svg><div class="byline mt-2">יוני: ₪389,450 | מאי: ₪321,880 | אפריל: ₪298,400</div></div>
+            <div class="chart-panel"><h2 class="section-title">סטטוס מנויים</h2><div class="donut" style="background:conic-gradient(var(--mida-green) 0 86%, var(--mida-red) 86% 88%, #9aa7b8 88% 96%, #c5cfda 96% 100%)"></div><div class="byline">פעילים 12,842 | ביטולים 312 | פג תוקף 1,254</div></div>
+          </section>
+          <section class="chart-panel" id="subscriber-events" style="margin-top:18px;">
+            <div class="panel-header px-0 pt-0"><span>מגמת מנויים מול אירועים בעולם האמיתי</span><button class="btn btn-sm btn-outline-danger" type="button">הוסף אירוע</button></div>
+            <div class="subscriber-timeline" aria-label="גרף מגמת מנויים עם אירועים מסומנים">
+              <svg class="real-chart" viewBox="0 0 900 300" role="img" aria-label="מנויים חדשים וחידושי מנוי לאורך זמן עם אירועים מסומנים">
+                <line class="grid-line" x1="70" y1="42" x2="860" y2="42"/><line class="grid-line" x1="70" y1="94" x2="860" y2="94"/><line class="grid-line" x1="70" y1="146" x2="860" y2="146"/><line class="grid-line" x1="70" y1="198" x2="860" y2="198"/><line class="axis" x1="70" y1="238" x2="860" y2="238"/><line class="axis" x1="70" y1="28" x2="70" y2="238"/>
+                <text class="chart-label" x="24" y="46">1,400</text><text class="chart-label" x="24" y="98">1,100</text><text class="chart-label" x="30" y="150">800</text><text class="chart-label" x="30" y="202">500</text>
+                <polyline class="line-series" points="80,205 150,180 230,174 310,126 390,138 470,92 550,96 630,154 710,92 790,64 850,70"/>
+                <polyline class="line-series secondary" points="80,232 150,215 230,212 310,190 390,198 470,174 550,180 630,205 710,168 790,155 850,150"/>
+                <circle class="data-point" cx="80" cy="205" r="5"/><circle class="data-point" cx="150" cy="180" r="5"/><circle class="data-point" cx="230" cy="174" r="5"/><circle class="data-point" cx="310" cy="126" r="5"/><circle class="data-point" cx="390" cy="138" r="5"/><circle class="data-point" cx="470" cy="92" r="5"/><circle class="data-point" cx="550" cy="96" r="5"/><circle class="data-point" cx="630" cy="154" r="5"/><circle class="data-point" cx="710" cy="92" r="5"/><circle class="data-point" cx="790" cy="64" r="5"/><circle class="data-point" cx="850" cy="70" r="5"/>
+                <circle class="data-point secondary" cx="80" cy="232" r="4"/><circle class="data-point secondary" cx="230" cy="212" r="4"/><circle class="data-point secondary" cx="390" cy="198" r="4"/><circle class="data-point secondary" cx="550" cy="180" r="4"/><circle class="data-point secondary" cx="710" cy="168" r="4"/><circle class="data-point secondary" cx="850" cy="150" r="4"/>
+                <text class="chart-label" x="76" y="266">אוג</text><text class="chart-label" x="226" y="266">אוק</text><text class="chart-label" x="386" y="266">דצמ</text><text class="chart-label" x="546" y="266">פבר</text><text class="chart-label" x="706" y="266">אפר</text><text class="chart-label" x="846" y="266">יונ</text>
+              </svg>
+              <div class="event-dot" style="right:18%; top:67%;"><span>מלחמה עם איראן</span></div>
+              <div class="event-dot" style="right:43%; top:38%;"><span>השקת סדרת פודקאסט</span></div>
+              <div class="event-dot" style="right:66%; top:54%;"><span>חגי תשרי</span></div>
+              <div class="event-dot" style="right:82%; top:31%;"><span>מבצע הרשמה מוקדמת</span></div>
+            </div>
+            <div class="event-form" aria-label="הוספת אירוע לניתוח מגמה">
+              <input value="מלחמה עם איראן" aria-label="שם האירוע">
+              <input value="13/06/2026" aria-label="תאריך האירוע">
+              <select aria-label="סוג אירוע"><option>ביטחוני</option><option>חגים</option><option>השקת תוכן</option><option>קמפיין</option></select>
+              <button class="btn btn-mida btn-sm px-4" type="button">סמן בגרף</button>
+            </div>
+            <div class="byline mt-3">כחול: מנויים חדשים | ירוק: חידושי מנוי | נקודות אדומות: אירועים שהוזנו על ידי מנהל המערכת.</div>
+          </section>
+          <section class="analytics-grid">
+            <div class="chart-panel"><h2 class="section-title">הפודקאסטים המובילים בהכנסות</h2><table><tr><th>פודקאסט</th><th>הכנסות</th><th>מנויים ייחודיים</th></tr><tr><td>אידיוטים שימושיים</td><td>₪98,450</td><td>3,152</td></tr><tr><td>ללא גבולות</td><td>₪76,230</td><td>2,301</td></tr><tr><td>כור ההיתוך</td><td>₪54,810</td><td>1,752</td></tr><tr><td>זווית ישרה</td><td>₪38,690</td><td>1,245</td></tr></table></div>
+            <div class="chart-panel"><h2 class="section-title">מגמות מנויים</h2><svg class="real-chart bar-svg" viewBox="0 0 420 250" role="img" aria-label="מנויים חדשים מול ביטולים לפי שבוע">
+              <line class="grid-line" x1="48" y1="40" x2="394" y2="40"/><line class="grid-line" x1="48" y1="90" x2="394" y2="90"/><line class="grid-line" x1="48" y1="140" x2="394" y2="140"/><line class="axis" x1="48" y1="198" x2="394" y2="198"/><line class="axis" x1="48" y1="28" x2="48" y2="198"/>
+              <text class="chart-label" x="10" y="44">350</text><text class="chart-label" x="10" y="94">250</text><text class="chart-label" x="10" y="144">150</text>
+              <rect class="revenue" x="74" y="72" width="24" height="126" rx="4"/><rect class="cancel" x="102" y="137" width="24" height="61" rx="4"/>
+              <rect class="revenue" x="144" y="46" width="24" height="152" rx="4"/><rect class="cancel" x="172" y="103" width="24" height="95" rx="4"/>
+              <rect class="revenue" x="214" y="91" width="24" height="107" rx="4"/><rect class="cancel" x="242" y="121" width="24" height="77" rx="4"/>
+              <rect class="revenue" x="284" y="55" width="24" height="143" rx="4"/><rect class="cancel" x="312" y="127" width="24" height="71" rx="4"/>
+              <rect class="revenue" x="354" y="28" width="24" height="170" rx="4"/><rect class="cancel" x="382" y="82" width="24" height="116" rx="4"/>
+              <text class="chart-label" x="82" y="222">ש1</text><text class="chart-label" x="152" y="222">ש2</text><text class="chart-label" x="222" y="222">ש3</text><text class="chart-label" x="292" y="222">ש4</text><text class="chart-label" x="362" y="222">ש5</text>
+            </svg><div class="byline mt-2">ירוק: מצטרפים חדשים | אדום: ביטולים</div></div>
+            <div class="chart-panel"><h2 class="section-title">התנהגות משתמשים</h2><table><tr><td>צפיות בדפים</td><td class="up">▲ 16.3%</td></tr><tr><td>שהייה ממוצעת באתר</td><td>04:32</td></tr><tr><td>שיעור נטישה</td><td class="down">42.7%</td></tr><tr><td>מנויים שחזרו מתוכן חינמי</td><td class="up">18.6%</td></tr></table></div>
+          </section>
+          <section class="event-strip">
+            <article class="event-card"><div class="date-pill">28<br>מאי</div><div><strong>כנס מידה 2026: ישראל והעולם החדש</strong><div class="byline">אוניברסיטת רייכמן, הרצליה</div></div><strong>₪42,350</strong></article>
+            <article class="event-card"><div class="date-pill">15<br>יונ</div><div><strong>כנס חירות וכלכלה</strong><div class="byline">אקספו תל אביב</div></div><strong>₪18,760</strong></article>
+            <article class="event-card"><div class="date-pill">02<br>יולי</div><div><strong>כנס ביטחון לאומי</strong><div class="byline">בני ברק</div></div><strong>₪12,450</strong></article>
+          </section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
