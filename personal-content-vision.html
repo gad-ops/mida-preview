@@ -10,12 +10,20 @@
     <style>
       .account-shell {
         display: grid;
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: 260px minmax(0, 1fr);
         gap: 22px;
+      }
+
+      .personal-page-wrap {
+        width: 100%;
+        max-width: none;
+        padding-right: 0;
       }
 
       .side-menu {
         padding: 16px;
+        border-right: 0;
+        border-radius: 4px 0 0 4px;
       }
 
       .side-menu a {
@@ -157,6 +165,10 @@
       }
 
       @media (max-width: 1080px) {
+        .personal-page-wrap {
+          padding-right: 26px;
+        }
+
         .account-shell,
         .content-hero,
         .member-banner,
@@ -182,9 +194,16 @@
   <body>
     <header class="topbar">
       <div class="topbar-inner">
-        <div class="top-actions"><span>✉</span><span>🔔</span><strong>ישראל ישראלי</strong></div>
         <input class="search-box" type="search" placeholder="חפש במידה..." aria-label="חיפוש">
         <a class="brand" href="index.html"><img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה"></a>
+        <div class="top-actions">
+          <a class="icon-link" href="personal-content-vision.html" aria-label="אימייל">✉</a>
+          <a class="icon-link" href="personal-content-vision.html" aria-label="טוויטר">●</a>
+          <a class="icon-link" href="personal-content-vision.html" aria-label="פייסבוק">f</a>
+          <a class="icon-link" href="single-article-vision.html" aria-label="וידאו">▶</a>
+          <a class="text-white text-decoration-none" href="personal-content-vision.html">התחבר</a>
+          <a class="btn btn-mida btn-sm px-4" href="personal-account-vision.html">הצטרפו עכשיו</a>
+        </div>
       </div>
     </header>
     <nav class="nav-strip">
@@ -196,7 +215,7 @@
         <li class="nav-item"><a class="nav-link" href="admin-dashboard-vision.html">דשבורד מנהלים</a></li>
       </ul>
     </nav>
-    <main class="page-wrap">
+    <main class="page-wrap personal-page-wrap">
       <div class="account-shell">
         <aside>
           <nav class="panel side-menu">
