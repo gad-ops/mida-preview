@@ -10,14 +10,14 @@
     <style>
       .account-shell {
         display: grid;
-        grid-template-columns: 260px minmax(0, 1fr);
-        gap: 22px;
+        grid-template-columns: 240px minmax(0, 1fr);
+        gap: 32px;
       }
 
       .personal-page-wrap {
         width: 100%;
         max-width: none;
-        padding-right: 0;
+        padding: 20px 0 28px;
       }
 
       .side-menu {
@@ -165,10 +165,6 @@
       }
 
       @media (max-width: 1080px) {
-        .personal-page-wrap {
-          padding-right: 26px;
-        }
-
         .account-shell,
         .content-hero,
         .member-banner,
@@ -183,6 +179,10 @@
       }
 
       @media (max-width: 680px) {
+        .personal-page-wrap {
+          padding-top: 16px;
+        }
+
         .content-grid,
         .watch-grid,
         .hero-card-grid {
@@ -216,7 +216,7 @@
       </ul>
     </nav>
     <main class="page-wrap personal-page-wrap">
-      <div class="account-shell">
+      <div class="account-shell member-layout">
         <aside>
           <nav class="panel side-menu">
             <a class="active" href="personal-content-vision.html">הבית שלי <span>⌂</span></a>

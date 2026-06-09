@@ -20,6 +20,7 @@
 body {
   margin: 0;
   padding-bottom: 118px;
+  overflow-x: hidden;
   background: #eef3f8;
   color: var(--mida-ink);
   font-family: Arial, Helvetica, sans-serif;
@@ -46,9 +47,16 @@ a {
   grid-template-columns: 250px 1fr 330px;
   align-items: center;
   gap: 22px;
-  width: min(100%, 1210px);
+  width: min(100%, 1240px);
   margin: 0 auto;
-  padding: 0 26px;
+  padding: 0 24px;
+}
+
+.topbar-inner > *,
+.page-wrap > *,
+.member-layout > *,
+.panel {
+  min-width: 0;
 }
 
 .brand {
@@ -127,9 +135,31 @@ a {
 }
 
 .page-wrap {
-  width: min(100%, 1210px);
+  width: min(100%, 1240px);
   margin: 0 auto;
-  padding: 20px 26px 28px;
+  padding: 20px 24px 28px;
+}
+
+.container-page {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.container-wide {
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.member-layout {
+  direction: rtl;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 32px;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
 }
 
 .panel {
@@ -324,6 +354,7 @@ body.footer-collapsed .footer-toggle .expand-label {
   .topbar-inner {
     gap: 14px;
     padding: 16px 24px;
+    min-width: 0;
   }
 
   .brand {
@@ -331,12 +362,44 @@ body.footer-collapsed .footer-toggle .expand-label {
   }
 
   .top-actions {
+    flex-wrap: wrap;
     justify-content: flex-start;
+    min-width: 0;
   }
 
   .footer-item {
     border-left: 0;
     border-bottom: 1px solid rgba(255, 255, 255, .16);
+  }
+}
+
+@media (max-width: 900px) {
+  .member-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .member-layout > aside {
+    min-width: 0;
+  }
+
+  .member-layout .side-menu {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+  .member-layout .side-menu a {
+    flex: 0 0 auto;
+    min-width: 136px;
+    border: 1px solid #edf2f7;
+    border-radius: 4px;
+  }
+
+  .member-layout aside > .panel:not(.side-menu) {
+    display: none;
   }
 }
 
@@ -347,6 +410,28 @@ body.footer-collapsed .footer-toggle .expand-label {
 
   .page-wrap {
     padding: 16px 14px 28px;
+  }
+
+  .container-page,
+  .container-wide,
+  .member-layout {
+    padding-inline: 14px;
+  }
+
+  .topbar-inner {
+    padding: 14px;
+  }
+
+  .top-actions {
+    gap: 10px;
+  }
+
+  .top-actions .btn {
+    padding-inline: 14px !important;
+  }
+
+  .section-title {
+    font-size: 18px;
   }
 
   .nav-strip {

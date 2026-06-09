@@ -8,8 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="prototype-shared.css" rel="stylesheet">
     <style>
-      .account-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 22px; }
-      .personal-page-wrap { width:100%; max-width:none; padding-right:0; }
+      .account-shell { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; }
+      .personal-page-wrap { width:100%; max-width:none; padding:20px 0 28px; }
       .side-menu { padding: 16px; border-right:0; border-radius:4px 0 0 4px; }
       .side-menu a { display:flex; justify-content:space-between; align-items:center; padding:12px 10px; border-bottom:1px solid #edf2f7; color:#24324a; text-decoration:none; font-size:14px; font-weight:800; }
       .side-menu a.active { color:#fff; background:var(--mida-blue); border-radius:4px; border-bottom-color:transparent; }
@@ -32,14 +32,15 @@
       .donation-box { padding:22px; }
       .donation-options { display:flex; gap:10px; margin:14px 0; }
       .donation-options button { flex:1; border:1px solid #b9c9dc; border-radius:4px; padding:9px; background:#fff; color:#172238; font-weight:900; }
-      @media (max-width:1080px){ .personal-page-wrap{padding-right:26px;} .account-shell,.subscription-card,.settings-grid,.billing-access{grid-template-columns:1fr;} .plan-grid{grid-template-columns:1fr;} }
+      @media (max-width:1080px){ .account-shell,.subscription-card,.settings-grid,.billing-access{grid-template-columns:1fr;} .plan-grid{grid-template-columns:1fr;} }
+      @media (max-width:680px){ .personal-page-wrap{padding-top:16px;} }
     </style>
   </head>
   <body>
     <header class="topbar"><div class="topbar-inner"><input class="search-box" type="search" placeholder="חפש במידה..." aria-label="חיפוש"><a class="brand" href="index.html"><img class="brand-logo" src="Resources/cropped-0000111.jpg" alt="מידה"></a><div class="top-actions"><a class="icon-link" href="personal-content-vision.html" aria-label="אימייל">✉</a><a class="icon-link" href="personal-content-vision.html" aria-label="טוויטר">●</a><a class="icon-link" href="personal-content-vision.html" aria-label="פייסבוק">f</a><a class="icon-link" href="single-article-vision.html" aria-label="וידאו">▶</a><a class="text-white text-decoration-none" href="personal-content-vision.html">התחבר</a><a class="btn btn-mida btn-sm px-4" href="personal-account-vision.html">הצטרפו עכשיו</a></div></div></header>
     <nav class="nav-strip"><ul class="nav"><li class="nav-item"><a class="nav-link active" href="category-vision.html">חוץ וביטחון</a></li><li class="nav-item"><a class="nav-link" href="index.html">פוליטיקה</a></li><li class="nav-item"><a class="nav-link" href="index.html">כלכלה</a></li><li class="nav-item"><a class="nav-link" href="admin-dashboard-vision.html">דשבורד מנהלים</a></li></ul></nav>
     <main class="page-wrap personal-page-wrap">
-      <div class="account-shell">
+      <div class="account-shell member-layout">
         <aside>
           <nav class="panel side-menu">
             <a href="personal-content-vision.html">הבית שלי <span>⌂</span></a>
